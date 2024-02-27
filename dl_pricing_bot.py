@@ -8,7 +8,7 @@ from telebot import types
 bot = telebot.TeleBot('7123896415:AAHaVQeFj4Pc9_zlxi3DuprdRH9RIO1qoK4')
 
 # ID файла Excel на Google Диске (из его общедоступной ссылки)
-file_id = '111585351480046313678'
+file_id = '1fo3Wbb6noDILXL96qkodV4uVInZYZY-p'
 
 # Функция загрузки данных из Excel-файла, расположенного на Google Диске
 def load_excel_data_from_google_drive(file_id):
