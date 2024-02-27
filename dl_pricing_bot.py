@@ -32,9 +32,17 @@ def load_excel_data_from_google_drive(file_id):
 excel_data = load_excel_data_from_google_drive(file_id)
 
 # Обработка команды /start
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "Привет! Я бот, который поможет тебе найти значения цен по SKU и типу цены.")
+#@bot.message_handler(commands=['start'])
+#def send_welcome(message):
+#    bot.reply_to(message, "Привет! Я бот, который поможет тебе найти значения цен по SKU и типу цены.")
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    global user_sku
+    if user_sku is None:  # Если SKU не было введено
+        user_sku = message.text  # Сохраняем введенное пользователем значение как SKU
+        bot.reply_to(message, "SKU сохранено. Теперь выберите тип цены:")
+    else:
+        bot.reply_to(message, "Вы уже ввели SKU. Пожалуйста, выберите тип цены.")
 
 # Обработка текстовых сообщений
 @bot.message_handler(func=lambda message: True)
@@ -53,7 +61,7 @@ def handle_message(message):
 # Обработка выбора типа цены
 def process_price_type_selection(message):
     price_type = message.text
-    sku = message.chat.id  # Предполагаем, что id чата можно использовать как SKU
+    sku = user_sku  # Пытаемся загнать User_SKU
     if sku in excel_data:
         if price_type in excel_data[sku]['prices']:
             price = excel_data[sku]['prices'][price_type]
