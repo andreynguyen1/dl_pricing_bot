@@ -32,48 +32,29 @@ def load_excel_data_from_google_drive(file_id):
 excel_data = load_excel_data_from_google_drive(file_id)
 
 # Обработка команды /start
-#@bot.message_handler(commands=['start'])
-#def send_welcome(message):
-#    bot.reply_to(message, "Привет! Я бот, который поможет тебе найти значения цен по SKU и типу цены.")
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    global user_sku
-    if user_sku is None:  # Если SKU не было введено
-        user_sku = message.text  # Сохраняем введенное пользователем значение как SKU
-        bot.reply_to(message, "SKU сохранено. Теперь выберите тип цены:")
-    else:
-        bot.reply_to(message, "Вы уже ввели SKU. Пожалуйста, выберите тип цены.")
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Привет! Я бот, который поможет тебе найти значения цен и комментариев по SKU и типу цены.")
 
 # Обработка текстовых сообщений
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    if message.text.startswith('/'):
-        return
-    if message.text in excel_data:
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        for price_type in excel_data[message.text]['prices']:
-            markup.add(types.KeyboardButton(price_type))
-        bot.send_message(message.chat.id, "Выберите тип цены:", reply_markup=markup)
-        bot.register_next_step_handler(message, process_price_type_selection)
-    else:
-        bot.reply_to(message, "SKU не найден.")
-
-# Обработка выбора типа цены
-def process_price_type_selection(message):
-    price_type = message.text
-    sku = user_sku  # Пытаемся загнать User_SKU
-    if sku in excel_data:
-        if price_type in excel_data[sku]['prices']:
-            price = excel_data[sku]['prices'][price_type]
-            comment = excel_data[sku]['comment']
+    global user_price_type, user_sku
+    if user_price_type is None:
+        user_price_type = message.text
+        bot.reply_to(message, "Теперь введите SKU:")
+    elif user_sku is None:
+        user_sku = message.text
+        excel_data = load_excel_data_from_google_drive(file_id)
+        if user_sku in excel_data:
+            price = excel_data[user_sku]['price']
+            comment = excel_data[user_sku]['comment']
             if comment:
-                bot.send_message(message.chat.id, f"Цена для SKU {sku} ({price_type}): {price}. Комментарий: {comment}")
+                bot.reply_to(message, f"Цена для SKU {user_sku} ({user_price_type}): {price}. Комментарий: {comment}")
             else:
-                bot.send_message(message.chat.id, f"Цена для SKU {sku} ({price_type}): {price}")
+                bot.reply_to(message, f"Цена для SKU {user_sku} ({user_price_type}): {price}")
         else:
-            bot.send_message(message.chat.id, f"Тип цены {price_type} для SKU {sku} не найден.")
-    else:
-        bot.send_message(message.chat.id, f"SKU {sku} не найден.")
+            bot.reply_to(message, f"SKU {user_sku} не найден.")
 
 # Запуск бота
 bot.polling()
