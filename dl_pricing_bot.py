@@ -11,7 +11,7 @@ bot = telebot.TeleBot('7123896415:AAHaVQeFj4Pc9_zlxi3DuprdRH9RIO1qoK4')
 file_id = '1fo3Wbb6noDILXL96qkodV4uVInZYZY-p'
 
 # SKU и тип цены, введенные пользователем
-#user_price_type = None
+user_price_type = None
 user_sku = None
 
 # Функция загрузки данных из Excel-файла, расположенного на Google Диске
@@ -34,15 +34,17 @@ def load_excel_data_from_google_drive(file_id):
 # Обработка команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    global user_price_type
+    global user_price_type, user_sku
     user_price_type = None
-    bot.reply_to(message, "Привет! Я бот, который поможет тебе найти значения цен и комментариев по SKU и типу цены.")
-    bot.send_message(message.chat.id, "Выберите тип цены:", reply_markup=create_price_type_keyboard())
+    user_sku = None
+    reply = "Привет! Я бот, который поможет тебе найти значения цен и комментариев по Коду Услуги и Региону. Нажми /start\n" \
+            "Выберите нужный вам регион: Moscow, Region"
+    bot.reply_to(message, reply)
 
 # Функция создания клавиатуры с типами цен
 def create_price_type_keyboard():
     keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    price_types = ['Moscow', 'Region']  # Здесь добавьте необходимые типы цен
+    price_types = ['Moscow', 'Region']  # Заголовки таблицы
     keyboard.add(*[types.KeyboardButton(price_type) for price_type in price_types])
     return keyboard
 
@@ -51,8 +53,11 @@ def create_price_type_keyboard():
 def handle_message(message):
     global user_price_type, user_sku
     if user_price_type is None:
+        if message.text not in ['Moscow', 'Region']:  # Проверяем, что тип цены входит в список
+            bot.reply_to(message, "Выберите нужный вам регион: Moscow, Region")
+            return
         user_price_type = message.text
-        bot.send_message(message.chat.id, "Теперь введите SKU:")
+        bot.reply_to(message, "Теперь введите Код Услуги ДЛ:")
     elif user_sku is None:
         user_sku = message.text
         excel_data = load_excel_data_from_google_drive(file_id)
