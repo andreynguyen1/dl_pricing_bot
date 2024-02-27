@@ -19,11 +19,13 @@ def load_excel_data_from_google_drive(file_id):
     data = {}
     for row in sheet.iter_rows(values_only=True):
         sku = row[0]
-        #prices = {sheet.cell(row=row[0], column=i).value: row[i] for i in range(1, len(row) - 1)}
-        sku_index = int(sku)
-        prices = {sheet.cell(row=sku_index, column=i).value: row[i] for i in range(1, len(row) - 1)}
-        comment = row[-1]
-        data[sku] = {'prices': prices, 'comment': comment}
+        if sku == 'SKU':  # Пропускаем заголовок
+            continue
+        if sku == input_sku:  # Проверяем точное совпадение SKU
+            prices = {sheet.cell(row=sku_index, column=i).value: row[i] for i in range(1, len(row) - 1)}
+            comment = row[-1]
+            data[sku] = {'prices': prices, 'comment': comment}
+            break  # Прекращаем поиск после нахождения точного совпадения
     return data
 
 # Загрузка данных из Excel-файла на Google Диске
