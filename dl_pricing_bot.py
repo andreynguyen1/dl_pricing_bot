@@ -19,7 +19,8 @@ def load_excel_data_from_google_drive(file_id):
     data = {}
     for row in sheet.iter_rows(values_only=True):
         sku = row[0]
-        prices = {sheet.cell(row=row[0], column=i).value: row[i] for i in range(1, len(row) - 1)}
+        #prices = {sheet.cell(row=row[0], column=i).value: row[i] for i in range(1, len(row) - 1)}
+        prices = {sheet.cell(row=sku, column=i).value: row[i] for i in range(1, len(row) - 1)}
         comment = row[-1]
         data[sku] = {'prices': prices, 'comment': comment}
     return data
