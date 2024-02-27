@@ -11,7 +11,7 @@ bot = telebot.TeleBot('7123896415:AAHaVQeFj4Pc9_zlxi3DuprdRH9RIO1qoK4')
 file_id = '1fo3Wbb6noDILXL96qkodV4uVInZYZY-p'
 
 # SKU и тип цены, введенные пользователем
-user_price_type = None
+#user_price_type = None
 user_sku = None
 
 # Функция загрузки данных из Excel-файла, расположенного на Google Диске
@@ -37,9 +37,10 @@ def send_welcome(message):
     global user_price_type, user_sku
     user_price_type = None
     user_sku = None
-    reply = "Привет! Я бот, который поможет тебе найти значения цен и комментариев по Коду Услуги и Региону. Нажми /start\n" \
+    reply = "Привет! Я бот, который поможет тебе найти значения цен и комментариев по Коду Услуги и Региону.\n" \
             "Выберите нужный вам регион: Moscow, Region"
-    bot.reply_to(message, reply)
+    #bot.reply_to(message, reply)
+    bot.send_message(message.chat.id, text=reply, reply_markup=create_price_type_keyboard())
 
 # Функция создания клавиатуры с типами цен
 def create_price_type_keyboard():
