@@ -1,6 +1,6 @@
 import telebot
-#from openpyxl import load_workbook
-#import requests
+from openpyxl import load_workbook
+import requests
 from io import BytesIO
 from telebot import types
 
