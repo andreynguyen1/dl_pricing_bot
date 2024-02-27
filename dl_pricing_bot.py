@@ -1,6 +1,6 @@
 import telebot
-from openpyxl import load_workbook
-import requests
+#from openpyxl import load_workbook
+#import requests
 from io import BytesIO
 from telebot import types
 
@@ -8,7 +8,7 @@ from telebot import types
 bot = telebot.TeleBot('7123896415:AAHaVQeFj4Pc9_zlxi3DuprdRH9RIO1qoK4')
 
 # ID файла Excel на Google Диске (из его общедоступной ссылки)
-file_id = '1M4T66ldeVua6pTfHYnEkfPLr79Hw8490QZyjlm-WvrI'
+file_id = '111585351480046313678'
 
 # Функция загрузки данных из Excel-файла, расположенного на Google Диске
 def load_excel_data_from_google_drive(file_id):
