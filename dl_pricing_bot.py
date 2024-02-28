@@ -58,7 +58,7 @@ def handle_message(message):
             bot.reply_to(message, "Выберите нужный вам регион: Moscow, Region")
             return
         user_price_type = message.text
-        bot.reply_to(message, "Теперь введите Код Услуги ДЛ:")
+        bot.reply_to(message, "Теперь введите Код Услуги ДЛ (пожалуйста, сохраняйте регистр букв):")
     elif user_sku is None:
         user_sku = message.text
         excel_data = load_excel_data_from_google_drive(file_id)
@@ -66,11 +66,11 @@ def handle_message(message):
             price = excel_data[user_sku]['price']
             comment = excel_data[user_sku]['comment']
             if comment:
-                bot.reply_to(message, f"Цена для SKU {user_sku} ({user_price_type}): {price}. Комментарий: {comment}")
+                bot.reply_to(message, f"Базовая цена для SKU {user_sku} ({user_price_type}): {price}. Комментарий: {comment}. Запросить новую цену /start")
             else:
-                bot.reply_to(message, f"Цена для SKU {user_sku} ({user_price_type}): {price}")
+                bot.reply_to(message, f"Базовая цена для SKU {user_sku} ({user_price_type}): {price}. Запросить новую цену /start")
         else:
-            bot.reply_to(message, f"SKU {user_sku} не найден.")
+            bot.reply_to(message, f"SKU {user_sku} не найден. Повторите запрос, нажав /start")
 
 # Запуск бота
 bot.polling()
