@@ -66,11 +66,11 @@ def handle_message(message):
             price = excel_data[user_sku]['price']
             comment = excel_data[user_sku]['comment']
             if comment:
-                bot.reply_to(message, f"Базовая цена для SKU {user_sku} ({user_price_type}): {price}. Комментарий: {comment}. Запросить новую цену /start")
+                bot.reply_to(message, f"Базовая цена для услуги {user_sku} (регион: {user_price_type}): {price}. Комментарий: {comment}. Запросить новую цену /start")
             else:
-                bot.reply_to(message, f"Базовая цена для SKU {user_sku} ({user_price_type}): {price}. Запросить новую цену /start")
+                bot.reply_to(message, f"Базовая цена для услуги {user_sku} (регион: {user_price_type}): {price}. Запросить новую цену /start")
         else:
-            bot.reply_to(message, f"SKU {user_sku} не найден. Повторите запрос, нажав /start")
+            bot.reply_to(message, f"Код услуги {user_sku} не найден. Повторите запрос, нажав /start")
 
 # Запуск бота
 bot.polling()
