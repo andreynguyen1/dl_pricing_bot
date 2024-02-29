@@ -73,11 +73,7 @@ def handle_message(message):
             bot.reply_to(message, f"Код услуги {user_sku} не найден. Повторите запрос, нажав /start")
 
 # Запуск бота
-from urllib3.exceptions import ProtocolError
-
 try:
     bot.polling()
-except ProtocolError as pe:
-    print(f"A ProtocolError occurred: {pe}")
 except Exception as e:
     print(f"An error occurred: {e}")
