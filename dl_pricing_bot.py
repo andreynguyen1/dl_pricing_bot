@@ -68,12 +68,12 @@ def handle_message(message):
             comment = excel_data[user_sku]['comment']
             name = excel_data[user_sku]['name']  # Получаем данные из четвертого столбца "Name"
             if comment:
-                bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): <b>{price}</b>. \nКомментарий: {comment}. \nЗапросить новую цену /start")
+                bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): {price}. \nКомментарий: {comment}. \nЗапросить новую цену /start")
             else:
-                bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): <b>{price}</b>. \nЗапросить новую цену /start")
+                bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): {price}. \nЗапросить новую цену /start")
             bot.reply_to(message, parse_mode='HTML')
         else:
-            bot.reply_to(message, f"Код услуги {user_sku} <b>не найден</b>. \nПовторите запрос, нажав /start")
+            bot.reply_to(message, f"Код услуги {user_sku} не найден. \nПовторите запрос, нажав /start")
 
 
 # Запуск бота
