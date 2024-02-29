@@ -71,7 +71,7 @@ def handle_message(message):
                 bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): *{price}*. \nКомментарий: {comment}. \nЗапросить новую цену /start")
             else:
                 bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): *{price}*. \nЗапросить новую цену /start")
-            bot.reply_to(message, response_message, parse_mode='Markdown')
+            bot.reply_to(message, parse_mode='Markdown')
         else:
             bot.reply_to(message, f"Код услуги {user_sku} {user_sku} не найден. \nПовторите запрос, нажав /start")
 
