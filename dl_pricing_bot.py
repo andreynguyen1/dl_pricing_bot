@@ -73,7 +73,4 @@ def handle_message(message):
             bot.reply_to(message, f"Код услуги {user_sku} не найден. Повторите запрос, нажав /start")
 
 # Запуск бота
-try:
-    bot.polling()
-except Exception as e:
-    print(f"An error occurred: {e}")
+bot.polling()
