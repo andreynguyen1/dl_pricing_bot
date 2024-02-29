@@ -27,7 +27,8 @@ def load_excel_data_from_google_drive(file_id):
             price_column = 2 if user_price_type == sheet.cell(row=1, column=2).value else 3
             price = row[price_column - 1]
             comment = row[3] if len(row) >= 4 else None
-            data[sku] = {'price': price, 'comment': comment}
+            name = row[4] if len(row) >= 5 else None  # Добавляем данные из четвертого столбца "Name"
+            data[sku] = {'price': price, 'comment': comment, 'name': name}  # Сохраняем все данные в словаре
             break
     return data
 
@@ -65,12 +66,15 @@ def handle_message(message):
         if user_sku in excel_data:
             price = excel_data[user_sku]['price']
             comment = excel_data[user_sku]['comment']
+            name = excel_data[user_sku]['name']  # Получаем данные из четвертого столбца "Name"
             if comment:
-                bot.reply_to(message, f"Базовая цена для услуги {user_sku} (регион: {user_price_type}): {price}. Комментарий: {comment}. Запросить новую цену /start")
+                bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): *{price}*. \nКомментарий: {comment}. \nЗапросить новую цену /start")
             else:
-                bot.reply_to(message, f"Базовая цена для услуги {user_sku} (регион: {user_price_type}): {price}. Запросить новую цену /start")
+                bot.reply_to(message, f"Базовая цена для услуги {user_sku} {name} (регион: {user_price_type}): *{price}*. \nЗапросить новую цену /start")
+            bot.reply_to(message, response_message, parse_mode='Markdown')
         else:
-            bot.reply_to(message, f"Код услуги {user_sku} не найден. Повторите запрос, нажав /start")
+            bot.reply_to(message, f"Код услуги {user_sku} {user_sku} не найден. \nПовторите запрос, нажав /start")
+
 
 # Запуск бота
 from urllib3.exceptions import ProtocolError
