@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "numReplicas": 1,
+    "numReplicas": 5,
     "startCommand": "python3 dl_pricing_bot.py",
     "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
