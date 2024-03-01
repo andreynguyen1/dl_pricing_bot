@@ -7,7 +7,7 @@
     "numReplicas": 1,
     "startCommand": "python3 dl_pricing_bot.py",
     "sleepApplication": false,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "restartPolicyType": "ALWAYS",
+    "restartPolicyMaxRetries": 1
   }
 }
